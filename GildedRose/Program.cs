@@ -72,7 +72,7 @@ namespace GildedRose
                         UpdateTicketsQuality(Items[i]);
                     break;
                     case "Conjured Mana Cake":
-                        UpdateTicketsQuality(Items[i]);
+                        UpdateConjuredQuality(Items[i]);
                     break;
                     default:
                         UpdateDefaultQuality(Items[i]); 

@@ -52,7 +52,7 @@ namespace GildedRose
                 item.Quality = 0;
                 return;
             }
-            item.Quality -= qualityDecreaseRate;
+            item.Quality += qualityDecreaseRate;
         }
         public void UpdateConjuredQuality(Item item) {
             UpdateDefaultQuality(item, -2);

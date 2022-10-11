@@ -11,7 +11,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public void Test_UpdateQuality()
+    public void Test_UpdateQuality_collection()
     {
         
         var items = new List<Item>(){
@@ -93,5 +93,24 @@ public class ProgramTests
     }
 
 
+    [Fact]
+    public void Test_Conjured_sell_below_0()
+    {
+        var items = new List<Item>(){ new Item { Name = "Conjured Sulfuras, Hand of Ragnaros", SellIn = -1, Quality = 30 }};
+        var app = new Program();
+        app.UpdateQuality(items);
+
+        items.Should().BeEquivalentTo(new List<Item>(){ new Item { Name = "Conjured Sulfuras, Hand of Ragnaros", SellIn = -2, Quality = 26 }});
+    }
+
+    [Fact]
+    public void Test_Conjured_sell_above_0()
+    {
+        var items = new List<Item>(){ new Item { Name = "Conjured Sulfuras, Hand of Ragnaros", SellIn = 5, Quality = 30 }};
+        var app = new Program();
+        app.UpdateQuality(items);
+
+        items.Should().BeEquivalentTo(new List<Item>(){ new Item { Name = "Conjured Sulfuras, Hand of Ragnaros", SellIn = 4, Quality = 28 }});
+    }
 
 }

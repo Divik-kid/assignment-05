@@ -6,13 +6,7 @@ namespace GildedRose
   public class Program
     {
         IList<Item> Items;
-        static void Main(string[] args)
-        {  var app = new Program()
-                {Items = new List<Item>
-                        {
-				// this conjured item does not work properly yet 
-                new Item { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }} };
-        }
+        static void Main(string[] args){}
 
         public void UpdateQuality(IList<Item> Items)
         {
@@ -93,11 +87,8 @@ namespace GildedRose
 }
 
     public class Item
-    {
-        public string Name { get; set; }
-
+    {   public string Name { get; set; }
         public int SellIn { get; set; }
-
         public int Quality { get; set; }
     }
 

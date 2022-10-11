@@ -30,11 +30,6 @@ namespace GildedRose
     //Quality is never negative
     //After SellInDate the Quality degrades twice as fast
     //Quality is never above 50
-    
-    public void UpdateLegendaryItems(Item i){
-        //if Quality is above 50
-        //no changes
-    }
 
     public void UpdateBrie(Item i){
         //brie increases in quality over time
@@ -42,12 +37,12 @@ namespace GildedRose
         if(i.SellIn >= 0 && i.Quality<=49){
             i.Quality++;
         }else{
-            i.Quality+=2;
+         
+           i.Quality+=2;
         }
         if(i.Quality>50){
             i.Quality=50;
         }
-        
     }
 
     public void UpdateConjured(Item i){

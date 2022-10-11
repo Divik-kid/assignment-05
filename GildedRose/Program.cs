@@ -7,7 +7,6 @@ namespace GildedRose
     {
         IList<Item> Items;
         static void Main(string[] args){}
-
         public void UpdateQuality(IList<Item> Items)
         {
             for (var i = 0; i < Items.Count; i++)

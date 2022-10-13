@@ -3,26 +3,29 @@ using System.Collections.Generic;
 
 namespace GildedRose
 {
-  public class Program
+
+
+    public class Program
     {
         static void Main(string[] args){}
-        public void UpdateQuality(IList<Item> Items)
+        public void UpdateQuality(IList<IItem> Items)
         {
             for (var i = 0; i < Items.Count; i++)
             {
-                switch(Items[i].Name) {
+                switch (Items[i].Name)
+                {
                     case "Sulfuras, Hand of Ragnaros":
                         UpdateLegendaryQuality(Items[i]);
-                    break;
+                        break;
                     case "Aged Brie":
                         UpdateAgedQuality(Items[i]);
-                    break;
+                        break;
                     case "Backstage passes to a TAFKAL80ETC concert":
                         UpdateTicketsQuality(Items[i]);
-                    break;
+                        break;
                     case "Conjured Mana Cake":
                         UpdateConjuredQuality(Items[i]);
-                    break;
+                        break;
                     default:
                         UpdateQuality(Items[i]); 
                     break;
@@ -30,20 +33,23 @@ namespace GildedRose
             }
         }
 
-        public void UpdateLegendaryQuality(Item item) {
+        public void UpdateLegendaryQuality(IItem item)
+        {
             // a legendary item, never has to be sold or decreases in Quality
         }
 
-        public void UpdateAgedQuality(Item item) {
+        public void UpdateAgedQuality(IItem item) {
             UpdateQuality(item, 1);
         }
 
-        public void UpdateTicketsQuality(Item item) {
+        public void UpdateTicketsQuality(IItem item) {
             int qualityDecreaseRate = 1;
-            if(item.SellIn < 11) {
+            if (item.SellIn < 11)
+            {
                 qualityDecreaseRate += 1;
             }
-            if(item.SellIn < 6) {
+            if (item.SellIn < 6)
+            {
                 qualityDecreaseRate += 1;
             }
             UpdateQuality(item, qualityDecreaseRate);
@@ -51,11 +57,11 @@ namespace GildedRose
                 item.Quality = 0;
             }
         }
-        public void UpdateConjuredQuality(Item item) {
+        public void UpdateConjuredQuality(IItem item) {
             UpdateQuality(item, -2);
         }
 
-        public void UpdateQuality(Item item, int qualityDecreaseRate = -1) {
+        public void UpdateQuality(IItem item, int qualityDecreaseRate = -1) {
             // DayPassing
             item.SellIn -= 1;
             // Once the sell by date has passed, Quality degrades twice as fast
@@ -67,20 +73,22 @@ namespace GildedRose
             KeepBounds(item);
         }
 
-        private void KeepBounds(Item item) {
+        private void KeepBounds(IItem item) {
             // The Quality of an item is never negative and is nevere more than 50
             if(item.Quality > 50){
                 item.Quality = 50;
             }
             else if(item.Quality < 0) {
                 item.Quality = 0;
-            } 
+            }
         }
 
     }
 
-    public class Item
-    {   public string? Name { get; set; }
+
+    public class Item : IItem
+    {
+        public string? Name { get; set; }
         public int SellIn { get; set; }
         public int Quality { get; set; }
     }

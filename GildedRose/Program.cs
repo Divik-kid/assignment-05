@@ -5,7 +5,6 @@ namespace GildedRose
 {
   public class Program
     {
-        IList<Item> Items;
         static void Main(string[] args){}
         public void UpdateQuality(IList<Item> Items)
         {
@@ -25,7 +24,7 @@ namespace GildedRose
                         UpdateConjuredQuality(Items[i]);
                     break;
                     default:
-                        UpdateDefaultQuality(Items[i]); 
+                        UpdateQuality(Items[i]); 
                     break;
                 }
             }
@@ -36,11 +35,10 @@ namespace GildedRose
         }
 
         public void UpdateAgedQuality(Item item) {
-            UpdateDefaultQuality(item, 1);
+            UpdateQuality(item, 1);
         }
 
         public void UpdateTicketsQuality(Item item) {
-            item.SellIn -= 1;
             int qualityDecreaseRate = 1;
             if(item.SellIn < 11) {
                 qualityDecreaseRate += 1;
@@ -48,32 +46,33 @@ namespace GildedRose
             if(item.SellIn < 6) {
                 qualityDecreaseRate += 1;
             }
+            UpdateQuality(item, qualityDecreaseRate);
             if(item.SellIn < 0) {
                 item.Quality = 0;
-                return;
             }
-            item.Quality += qualityDecreaseRate;
         }
         public void UpdateConjuredQuality(Item item) {
-            UpdateDefaultQuality(item, -2);
+            UpdateQuality(item, -2);
         }
 
-        public void UpdateDefaultQuality(Item item, int qualityDecreaseRate = -1) {
+        public void UpdateQuality(Item item, int qualityDecreaseRate = -1) {
             // DayPassing
             item.SellIn -= 1;
-            // The Quality of an item is never more than 50
-            if(item.Quality < 50) {
-                // Once the sell by date has passed, Quality degrades twice as fast
-                if(item.SellIn >= 0) {
-                    item.Quality += qualityDecreaseRate;
-                } else {
-                    item.Quality += qualityDecreaseRate*2;
-                }
+            // Once the sell by date has passed, Quality degrades twice as fast
+            if(item.SellIn >= 0) {
+                item.Quality += qualityDecreaseRate;
             } else {
+                item.Quality += qualityDecreaseRate*2;
+            }
+            KeepBounds(item);
+        }
+
+        private void KeepBounds(Item item) {
+            // The Quality of an item is never negative and is nevere more than 50
+            if(item.Quality > 50){
                 item.Quality = 50;
             }
-            // The Quality of an item is never negative
-            if(item.Quality < 0) {
+            else if(item.Quality < 0) {
                 item.Quality = 0;
             } 
         }
@@ -81,7 +80,7 @@ namespace GildedRose
     }
 
     public class Item
-    {   public string Name { get; set; }
+    {   public string? Name { get; set; }
         public int SellIn { get; set; }
         public int Quality { get; set; }
     }

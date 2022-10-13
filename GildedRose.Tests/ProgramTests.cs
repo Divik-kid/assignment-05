@@ -137,6 +137,34 @@ public class ProgramTests
         items.Should().BeEquivalentTo(new List<Item>() { new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = -1, Quality = 80 } });
     }
 
+        [Fact]
+    public void Test_Conjured_sell_below_0()
+    {
+        //Arrange
+        var app = new Program();
+        var items = Factory.createList();
+        var item = Factory.createItem(); item.Name = "Conjured Mana Cake"; item.SellIn = -1; item.Quality = 30;
+        items.Add(item);
+        //Act
+        app.UpdateQuality(items);
+        //Assert
+        items.Should().BeEquivalentTo(new List<Item>(){ new Item { Name = "Conjured Mana Cake", SellIn = -2, Quality = 26 }});
+    }
+
+    [Fact]
+    public void Test_Conjured_sell_above_0()
+    {
+        //Arrange
+        var app = new Program();
+        var items = Factory.createList();
+        var item = Factory.createItem(); item.Name = "Conjured Mana Cake"; item.SellIn = 5; item.Quality = 30;
+        items.Add(item);
+        //Act
+        app.UpdateQuality(items);
+        //Assert
+        items.Should().BeEquivalentTo(new List<Item>(){ new Item { Name = "Conjured Mana Cake", SellIn = 4, Quality = 28 }});
+    }
+
 
 
 }
